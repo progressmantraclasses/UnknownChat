@@ -9,7 +9,7 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server, {
     cors: {
-        origin: "http://localhost:3000",  // Frontend URL
+        origin: "https://unknown-chats.web.app",  // Frontend URL
         methods: ["GET", "POST"]
     }
 });
@@ -33,7 +33,7 @@ const upload = multer({ storage });
 
 // Handle file upload
 app.post('/upload', upload.single('media'), (req, res) => {
-    const filePath = `http://localhost:5000/uploads/${req.file.filename}`;
+    const filePath = `https://chat-app-33o0.onrender.com/uploads/${req.file.filename}`;
     res.json({ filePath });
 });
 
@@ -82,6 +82,7 @@ io.on('connection', (socket) => {
     });
 });
 
-server.listen(5000, () => {
-    console.log('Server running on http://localhost:5000');
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
